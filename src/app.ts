@@ -7,7 +7,7 @@ import path from "path";
 // Controllers (route handlers)
 import * as homeController from "./controllers/home";
 
-dotenv.load();
+dotenv.config();
 
 // Express configuration
 const app = express();
