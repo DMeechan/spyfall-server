@@ -26,8 +26,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(lusca.xssProtection(true));
 
 // Serve static assets from src/public directory
+console.log(path.join(__dirname, "public"));
 app.use(
-  express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
+  express.static(path.join(__dirname, "public"), { maxAge: 30 })
 );
 
 /**
