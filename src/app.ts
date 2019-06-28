@@ -6,6 +6,7 @@ import path from "path";
 
 // Controllers (route handlers)
 import * as homeController from "./controllers/home";
+import * as clientController from "./controllers/client";
 
 dotenv.config();
 
@@ -33,5 +34,6 @@ app.use(
  * Primary app routes.
  */
 app.get("/", homeController.index);
+app.get("/client", clientController.index);
 
 export default app;
