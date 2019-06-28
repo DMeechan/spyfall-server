@@ -11,10 +11,18 @@ html(lang='')
     link(rel='shortcut icon', href='/images/favicon.png')
 
   body
+    style(type="text/css").
+      * {
+        padding: 0; box-sizing: border-box;
+        font-weight: lighter;
+      }
+      body {
+        font: 21px Helvetica, Arial;
+      }
+      
     include partials/header
 
-    .container.pl-sm-0.pr-sm-0.pl-lg-3.pr-lg-3
-      block content
+    block content
 
     include partials/footer
 
