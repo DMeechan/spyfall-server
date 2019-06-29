@@ -8,8 +8,10 @@ export function start(io: any) {
         console.log(`message: ${msg}`)
     })
 
+    socket.on('disconnect', () => {
+        console.log('a user disconnected');
+      });
+
   });
-  io.on('disconnect', (socket: any) => {
-    console.log('a user disconnected');
-  });
+
 }
