@@ -1,24 +1,30 @@
 declare var io: any;
 
 function start() {
-  console.log('Starting websocket connection...');
-
   const socket = io('http://localhost:3000');
+  console.log('Connecting to server...');
 
-  socket.on('message', (message: string) => {
-    console.log(`message: ${message}`);
-
-    const li = document.createElement('li');
-    li.innerHTML = message;
-    
-    document.getElementById("messages").append(li);
+  socket.on('connect', () => {
+    console.log(socket.connected ? 'Connected!' : 'Unable to connect :(');
   });
 
-  function sendMsg() {
-    socket.emit('message', 'HELLO WORLD');
-  }
+  socket.on('message', (message: string) => {
+    console.log(`Message received: ${message}`);
+    displayMessage(message);
+  });
 
-  sendMsg();
+  sendMessage(socket);
+}
+
+function sendMessage(socket: any) {
+  socket.emit('message', 'HELLO WORLD');
+}
+
+function displayMessage(message: string) {
+  const li = document.createElement('li');
+  li.innerHTML = message;
+
+  document.getElementById('messages').append(li);
 }
 
 start();
