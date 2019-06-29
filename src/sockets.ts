@@ -1,12 +1,10 @@
 import io from 'socket.io';
 
 // Should this use a Map instead? Probably
-let games: {} = {
+let games: Map<string, Game> = new Map([]);
 
-};
-
-export function start(io: any) {
-  io.on('connection', (socket: any) => {
+export function start(io: SocketIO.Server) {
+  io.on('connection', (socket: SocketIO.Socket) => {
     console.log('a user connected');
 
     socket.on('message', (message: string) => {
@@ -16,20 +14,12 @@ export function start(io: any) {
 
     socket.on('create room', (data: { room: string; username: string }) => {
       const { room, username } = data;
-
-      if (games.hasOwnProperty(room)) {
-          // Game name taken - choose another one
-      } else {
-          // Create game
-          games[room] = new Game();
-      }
-
-      console.log(`Creating room: ${room} for ${username}`);
+      createRoom(room, username);
     });
 
     socket.on('join room', (data: { room: string; username: string }) => {
       const { room, username } = data;
-      console.log(`Joining room: ${room} for ${username}`);
+      joinRoom(room, username);
     });
 
     socket.on('disconnect', () => {
@@ -37,3 +27,18 @@ export function start(io: any) {
     });
   });
 }
+
+function createRoom(room: string, username: string) {
+  if (games.has(room)) {
+    // Game name taken - choose another one
+  } else {
+    console.log(`Creating room: ${room} for ${username}`);
+    // Create game
+    // games[room] = new Game();
+  }
+}
+
+function joinRoom(room: string, username: string) {
+  console.log(`Joining room: ${room} for ${username}`);
+}
+
