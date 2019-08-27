@@ -3,11 +3,25 @@
 declare var io: SocketIOClientStatic;
 
 function start() {
+  setupFakeUi();
+
   const socket = io("http://localhost:3000");
-  console.log("Connecting to server...");
+  console.log("💫 Connecting to server...");
 
   setupSocket(socket);
   sendMessage(socket);
+}
+
+function setupFakeUi() {
+  document.getElementById("create_room").addEventListener("click", function () {
+    const room = document.getElementById("room_name");
+
+    if (!(room instanceof HTMLInputElement)) {
+      throw new Error("room is not inpur field :(");
+    }
+
+    console.warn("Found you clicking on this old chap", room.value);
+  });
 }
 
 function setupSocket(socket: SocketIOClient.Socket) {

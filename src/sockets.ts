@@ -8,8 +8,8 @@ enum Status {
 
 type StatusResponse = [Status, any];
 
-// Map: access code => Game 
-let games: Map<string, Game> = new Map([]);
+// Map: access code => Game
+const games: Map<string, Game> = new Map([]);
 
 export function start(io: SocketIO.Server) {
   io.on("connection", (socket: SocketIO.Socket) => {
@@ -21,7 +21,7 @@ export function start(io: SocketIO.Server) {
     });
 
     socket.on("create room", (data: { room: string; playerName: string }) => {
-      const { room, playerName: playerName } = data;
+      const { room, playerName } = data;
       const [status, message] = createRoom(room, playerName);
 
       switch (status) {
@@ -36,7 +36,7 @@ export function start(io: SocketIO.Server) {
     });
 
     socket.on("join room", (data: { room: string; playerName: string }) => {
-      const { room, playerName: playerName } = data;
+      const { room, playerName } = data;
       const [status, message] = joinRoom(room, playerName);
 
       switch (status) {
@@ -73,9 +73,10 @@ function joinRoom(roomAccessCode: string, playerName: string) {
   }
 
   console.log(`Joining room: ${roomAccessCode} for ${playerName}`);
+
   const player = new Player(playerName);
   const game = games.get(roomAccessCode);
-  game.players.push(player); // check if this is modifying games properly
+  game.join(player);
 
   return [Status.OK, game];
 }
